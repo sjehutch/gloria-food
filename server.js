@@ -117,14 +117,16 @@ app.post("/order", function(req, res){
 	}, callback);
 
     function callback(error, response, body){
-        console.log("Error : " + error);
-        console.log(JSON.parse(body));
-        res.send(JSON.parse(body));
+    	if (error) {
+    		console.log("Error : " + error);
+    		res.status(400).send(error);
+    	} else {
+    		console.log(JSON.parse(body));
+	        res.status(200).send(JSON.parse(body));
+    	}
     }
-
-	
 });
 
-app.listen(80, function () {
-    console.log('Gloria app listening on port 80!');
+app.listen(5000, function () {
+    console.log('Gloria app listening on port 5000!');
 });
