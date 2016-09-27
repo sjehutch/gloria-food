@@ -48,7 +48,11 @@ app.post("/order", function(req, res){
 	, restaurantAddress = restaurantName+', '+restaurantStreet+', '+restaurantCity+','+restaurantState+', '+restaurantZipcode
 	, clientLatitude = _.get(req.body.orders[0], 'latitude')
 	, clientLongitude = _.get(req.body.orders[0], 'longitude')
-	,clientAddress = _.get(req.body.orders[0], 'client_address');
+	, clientAddress = _.get(req.body.orders[0], 'client_address')
+	, fulifilledAt = _.get(req.body.orders[0], 'fulfill_at')
+	, time = new Date(fulifilledAt)
+	, pickupTime = time.setHours(time.getHours()-2)
+	, pickupTime = time.toISOString(pickupTime);
 
 	var data = {
 	  "apiKey": "76b3f1c8-c7cf-4565-8f7e-ac6bfffeed79",
@@ -57,7 +61,7 @@ app.post("/order", function(req, res){
 		  "deliveryInstructions": req.body.orders[0].instructions,
 		  "itemsRequirePurchase": false,
 		  "items":items,
-		  "pickupTime": "2016-10-23T13:33:54.3775576+00:00",
+		  "pickupTime": pickupTime,
 		  "pickupDetail": { 
 	        	"name": restaurantName,
 			      "phone": restaurantPhone,
@@ -75,8 +79,8 @@ app.post("/order", function(req, res){
 	        	}	
 	    	},
 	    	"dropoffWindow": {
-		      "earliestTime": "2016-10-23T13:33:54.3775576+00:00",
-		      "latestTime": "2016-10-23T13:33:54.3775576+00:00"
+		      "earliestTime": fulifilledAt,
+		      "latestTime": fulifilledAt
 		    },
 		    "dropoffDetail": {
 		      "name": clientName,
@@ -93,15 +97,7 @@ app.post("/order", function(req, res){
 		        "latitude": clientLatitude,
 		        "longitude": clientLongitude
 		      }
-    		},
-    		"customerFee": 4.0,
-		    "customerReference": "sample string 5",
-		    "tax": 1.0,
-		    "taxInclusivePrice": false,
-		    "tip": 1.0,
-		    "driverFeePercentage": 6.0,
-		    "driverMatchCode": "sample string 7",
-		    "deliverySequence": 8 
+    		}
 		}
 	}
 
@@ -127,6 +123,6 @@ app.post("/order", function(req, res){
     }
 });
 
-app.listen(5000, function () {
-    console.log('Gloria app listening on port 5000!');
+app.listen(3000, function () {
+    console.log('Gloria app listening on port 3000!');
 });
