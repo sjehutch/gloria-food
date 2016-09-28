@@ -16,3 +16,9 @@ pass: gsdelivery77
 ssh -i "gomatic.pem" ec2-user@ec2-54-208-104-131.compute-1.amazonaws.com
 
 ###Pem file in repo
+
+###Aws login
+```
+Matthew@gomatic.co
+scottisking16
+```
